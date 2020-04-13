@@ -34,7 +34,7 @@
           Delete your suggestion
         </button>
       </div>
-      <p><em>Suggested by {{movie.user.displayName}}</em></p>
+      <p><em>Suggested by {{movie.userDisplayName}}</em></p>
     </div>
   </div>
 </div>
@@ -59,31 +59,23 @@ export default {
     searchResults() {
       return this.movies.filter(movie =>
         movie.title.toLowerCase().includes(this.searchText.toLowerCase()));
-    }
+    },
   },
   methods: {
     isUser(movie) {
-      if (movie.user._id == this.$root.$data.user._id) return true;
+      if (movie.userId == this.$root.$data.user._id) return true;
       else return false;
     },
     isWatched(movie) {
       if (this.$root.$data.user.watchedList.includes(movie._id)) return true;
       else return false;
     },
-    async getUser(movie) {
-      try {
-        let response = await axios.get('/api/user/' + movie.user._id);
-        return response.data.displayName;
-      } catch (error) {
-        //console.log(error); //FIXME This may crash
-      }
-    },
     async addToWatchList(movie) {
       try {
         await axios.post('/api/user/list/' + this.$root.$data.user._id, movie);
         this.getMovies();
       } catch (error) {
-        //console.log(error); //FIXME This may crash
+        //console.log(error);
       }
     },
     async removeFromWatchList(movie) {
@@ -91,7 +83,7 @@ export default {
         await axios.delete('/api/user/list/' + this.$root.$data.user._id, movie);
         this.getMovies();
       } catch (error) {
-        //console.log(error); //FIXME This may crash
+        //console.log(error);
       }
     },
     async toggleWatched(movie) {
@@ -99,7 +91,7 @@ export default {
         await axios.put('/api/user/list/' + this.$root.$data.user._id, movie);
         this.getMovies();
       } catch (error) {
-        //console.log(error); //FIXME This may crash
+        //console.log(error);
       }
     },
     onList(movie) {
@@ -116,7 +108,7 @@ export default {
         }
         this.getMovies();
       } catch (error) {
-        //  console.log(error); //FIXME This may cause an error
+        //  console.log(error);
       }
     },
     async getMovies() {
@@ -129,8 +121,10 @@ export default {
 
         this.$root.$data.watchList = this.$root.$data.movies.filter(movie =>
           this.$root.$data.user.watchList.includes(movie._id));
+
+        this.getUsers();
       } catch (error) {
-        //  console.log(error); //FIXME this may cause issues
+        //  console.log(error);
       }
     },
   }

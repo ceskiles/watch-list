@@ -39,13 +39,11 @@ export default {
         producers: "",
         company: "",
         viewService: "",
-        user: "",
+        userId: this.$root.$data.user._id,
+        userDisplayName: this.$root.$data.user.displayName,
       },
       submitted: false,
     }
-  },
-  created() {
-    this.movie.user = this.$root.$data.user;
   },
   methods: {
     async addMovieToList() {
@@ -63,7 +61,8 @@ export default {
           producers: "",
           company: "",
           viewService: "",
-          user: "",
+          userId: this.$root.$data.user._id,
+          userDisplayName: this.$root.$data.user.displayName,
         },
         this.submitted = true;
     },

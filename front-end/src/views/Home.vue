@@ -12,11 +12,15 @@
 </template>
 
 <script scoped>
+import axios from 'axios';
 import MovieList from "../components/MovieList.vue";
 export default {
   name: 'Home',
   components: {
     MovieList
+  },
+  created() {
+    this.getMovies();
   },
   computed: {
     movies() {
@@ -26,6 +30,24 @@ export default {
       return this.$root.$data.movies.length == 0;
     }
   },
+  methods: {
+    async getMovies() {
+      try {
+        let response = await axios.get("/api/movies");
+        this.$root.$data.movies = response.data;
+
+        response = await axios.get('/api/user/' + this.$root.$data.user._id);
+        this.$root.$data.user = response.data;
+
+        this.$root.$data.watchList = this.$root.$data.movies.filter(movie =>
+          this.$root.$data.user.watchList.includes(movie._id));
+
+        this.getUsers();
+      } catch (error) {
+        //  console.log(error);
+      }
+    },
+  }
 }
 </script>
 

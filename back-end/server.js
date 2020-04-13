@@ -16,7 +16,6 @@ const userSchema = new mongoose.Schema({
   watchedList: [mongoose.Schema.Types.ObjectId],
 });
 
-// Create a schema for movies in The List
 const movieSchema = new mongoose.Schema({
   title: String,
   genre: String,
@@ -26,7 +25,8 @@ const movieSchema = new mongoose.Schema({
   releaseDate: String,
 
   viewService: String,
-  user: userSchema
+  userId: mongoose.Schema.Types.ObjectId,
+  userDisplayName: String,
 });
 
 // Create a models
@@ -48,7 +48,8 @@ app.post('/api/movies', async (req, res) => {
     producers: req.body.producers,
     releaseDate: req.body.releaseDate,
     viewService: req.body.viewService,
-    user: req.body.user,
+    userId: req.body.userId,
+    userDisplayName: req.body.userDisplayName,
   });
   try {
     await movie.save();
