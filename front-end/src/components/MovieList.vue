@@ -22,8 +22,8 @@
         </div>
       </div>
       <div class="options">
-        <button v-if="onList(movie)" v-on:click="removeFromWatchList(movie)">Remove from My List</button>
-        <button v-else v-on:click="addToWatchList(movie)">Add to My List</button>
+        <button v-if="onList(movie)" v-on:click="toggleWatchList(movie)">Remove from My List</button>
+        <button v-else v-on:click="toggleWatchList(movie)">Add to My List</button>
         <button class='watched-button' v-on:click="toggleWatched(movie)">
           <input v-if="isWatched(movie)" class='watch-checked' type="checkbox" checked disabled />
           <input v-else class='watch-checked' type="checkbox" unchecked disabled />
@@ -70,17 +70,12 @@ export default {
       if (this.$root.$data.user.watchedList.includes(movie._id)) return true;
       else return false;
     },
-    async addToWatchList(movie) {
-      try {
-        await axios.post('/api/user/list/' + this.$root.$data.user._id, movie);
-        this.getMovies();
-      } catch (error) {
-        //console.log(error);
-      }
+    onList(movie) {
+      return this.$root.$data.user.watchList.includes(movie._id);
     },
-    async removeFromWatchList(movie) {
+    async toggleWatchList(movie) {
       try {
-        await axios.delete('/api/user/list/' + this.$root.$data.user._id, movie);
+        await axios.put('/api/user/watch-list/' + this.$root.$data.user._id, movie);
         this.getMovies();
       } catch (error) {
         //console.log(error);
@@ -88,20 +83,18 @@ export default {
     },
     async toggleWatched(movie) {
       try {
-        await axios.put('/api/user/list/' + this.$root.$data.user._id, movie);
+        await axios.put('/api/user/watched-list/' + this.$root.$data.user._id, movie);
         this.getMovies();
       } catch (error) {
         //console.log(error);
       }
     },
-    onList(movie) {
-      return this.$root.$data.user.watchList.includes(movie._id);
-    },
     async removeMovie(movie) {
       try {
+        this.getMovies();
         await axios.delete('/api/movie/' + movie._id);
-        if (this.$root.$data.user.watchList.includes(movie._id)) {
-          this.removeFromWatchList(movie);
+        if (this.$root.$data.watchList.includes(movie)) {
+          this.toggleWatchList(movie);
         }
         if (this.$root.$data.user.watchedList.includes(movie._id)) {
           this.toggleWatched(movie);

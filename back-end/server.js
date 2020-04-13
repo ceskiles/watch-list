@@ -149,13 +149,18 @@ app.delete('/api/user/:id', async (req, res) => {
   }
 });
 
-//Add a movie to a user's list
-app.post('/api/user/list/:id', async (req, res) => {
+//Update a user's watch list
+app.put('/api/user/watch-list/:id', async (req, res) => {
   try {
     let user = await User.findOne({
       _id: req.params.id
     })
-    user.watchList.push(req.body._id);
+    if (user.watchList.includes(req.body._id)) {
+      user.watchList.splice(user.watchList.indexOf(req.body._id),1);
+    }
+    else {
+      user.watchList.push(req.body._id);
+    }
     await user.save();
     res.sendStatus(200);
   } catch (error) {
@@ -164,8 +169,8 @@ app.post('/api/user/list/:id', async (req, res) => {
   }
 });
 
-//Update a movie on a user's list
-app.put('/api/user/list/:id', async (req, res) => {
+//Update a user's watched list
+app.put('/api/user/watched-list/:id', async (req, res) => {
   try {
     let user = await User.findOne({
       _id: req.params.id
@@ -176,21 +181,6 @@ app.put('/api/user/list/:id', async (req, res) => {
     else {
       user.watchedList.push(req.body._id);
     }
-    await user.save();
-    res.sendStatus(200);
-  } catch (error) {
-    console.log(error);
-    res.sendStatus(500);
-  }
-});
-
-//Remove a movie from a user's watch list
-app.delete('/api/user/list/:id', async (req, res) => {
-  try {
-    let user = await User.findOne({
-      _id: req.params.id
-    })
-    user.watchList.splice(user.watchList.indexOf(req.body._id), 1);
     await user.save();
     res.sendStatus(200);
   } catch (error) {
