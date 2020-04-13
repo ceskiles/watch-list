@@ -72,7 +72,7 @@ export default {
     },
     async getUser(movie) {
       try {
-        let response = await axios.get('/api/user/' + movie.user);
+        let response = await axios.get('/api/user/' + movie.user._id);
         return response.data.displayName;
       } catch (error) {
         console.log(error); //FIXME This may crash
