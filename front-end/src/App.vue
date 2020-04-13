@@ -4,7 +4,7 @@
     <div id="logo">
       <h1>The List</h1>
     </div>
-    <div id="nav">
+    <div v-if="loggedIn" id="nav">
       <router-link to="/">
         <div class="menu-item home">
           <p>The List</p>
@@ -20,10 +20,16 @@
           <p>Add to The List</p>
         </div>
       </router-link>
+      <div id="logout">
+        <span>{{this.$root.$data.user.displayName}} |</span>
+        <button v-on:click="logout()" class='menu-item'>
+          <p>Logout</p>
+        </button>
+      </div>
     </div>
   </div>
   <router-view />
-  <div id="footer">
+  <div class="footer">
     <a href="https://github.com/ceskiles/watch-list">
       <img src="./assets/GitHub-Mark-120px-plus.png" />
     </a>
@@ -33,7 +39,22 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  created() {
+    if (!this.loggedIn) this.$router.push('/sign-in');
+  },
+  computed: {
+    loggedIn() {
+      return this.$root.$data.loggedIn;
+    }
+  },
+  methods: {
+    logout() {
+      this.$root.$data.user = null;
+      this.$root.$data.loggedIn = false;
+      this.$router.push('/sign-in');
+    }
+  }
 }
 </script>
 
@@ -51,17 +72,11 @@ export default {
   font-family: Helvetica;
 }
 
-body {
-  width: 100%;
-  background-color: white;
-}
-
 #menu {
   display: flex;
   width: 100%;
   height: 3em;
   padding: 0 10px 0 20px;
-  margin-bottom: 1cm;
   background-color: var(--primary-color);
   color: white;
   position: sticky;
@@ -79,7 +94,7 @@ body {
 }
 
 #nav {
-  width: 50%;
+  width: 80%;
   padding: 10px;
   display: flex;
   justify-content: flex-start;
@@ -94,17 +109,32 @@ body {
   font-weight: bold;
 }
 
+#nav>#logout {
+  position: absolute;
+  top: 5px;
+  right: 0px;
+  border: none;
+  background: none;
+  font-size: 16px;
+}
+
+#nav>#logout>button {
+  border: none;
+  background: none;
+  font-size: 16px;
+}
+
 .menu-item:hover {
   margin: 10px;
   color: #ddd;
   text-decoration: none;
 }
 
-#footer {
+.footer {
   height: 100px;
 }
 
-#footer img {
+.footer img {
   float: right;
   width: 50px;
   margin: 30px;

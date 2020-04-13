@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import WatchList from '../views/WatchList.vue'
+import SignIn from '../views/SignIn.vue'
 import Submission from '../views/Submission'
 
 Vue.use(VueRouter)
@@ -21,6 +22,11 @@ const routes = [
     path: '/submit',
     name: 'Submission',
     component: Submission
+  },
+  {
+    path: '/sign-in',
+    name: 'SignIn',
+    component: SignIn
   }
 ]
 

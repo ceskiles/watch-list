@@ -1,13 +1,14 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-import mock from './assets/mock-data.js'
 
 Vue.config.productionTip = false
 
 let data = {
-  movies: mock,
-  watchlist: []
+  user: null,
+  loggedIn: false,
+  movies: [],
+  watchList: [],
 }
 
 new Vue({
