@@ -75,7 +75,7 @@ export default {
         let response = await axios.get('/api/user/' + movie.user._id);
         return response.data.displayName;
       } catch (error) {
-        console.log(error); //FIXME This may crash
+        //console.log(error); //FIXME This may crash
       }
     },
     async addToWatchList(movie) {
@@ -83,7 +83,7 @@ export default {
         await axios.post('/api/user/list/' + this.$root.$data.user._id, movie);
         this.getMovies();
       } catch (error) {
-        console.log(error); //FIXME This may crash
+        //console.log(error); //FIXME This may crash
       }
     },
     async removeFromWatchList(movie) {
@@ -91,7 +91,7 @@ export default {
         await axios.delete('/api/user/list/' + this.$root.$data.user._id, movie);
         this.getMovies();
       } catch (error) {
-        console.log(error); //FIXME This may crash
+        //console.log(error); //FIXME This may crash
       }
     },
     async toggleWatched(movie) {
@@ -99,7 +99,7 @@ export default {
         await axios.put('/api/user/list/' + this.$root.$data.user._id, movie);
         this.getMovies();
       } catch (error) {
-        console.log(error); //FIXME This may crash
+        //console.log(error); //FIXME This may crash
       }
     },
     onList(movie) {
@@ -116,7 +116,7 @@ export default {
         }
         this.getMovies();
       } catch (error) {
-        console.log(error); //FIXME This may cause an error
+        //  console.log(error); //FIXME This may cause an error
       }
     },
     async getMovies() {
@@ -130,7 +130,7 @@ export default {
         this.$root.$data.watchList = this.$root.$data.movies.filter(movie =>
           this.$root.$data.user.watchList.includes(movie._id));
       } catch (error) {
-        console.log(error); //FIXME this may cause issues
+        //  console.log(error); //FIXME this may cause issues
       }
     },
   }

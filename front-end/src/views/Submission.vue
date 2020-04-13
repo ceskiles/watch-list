@@ -53,7 +53,7 @@ export default {
         await axios.post('/api/movies', this.movie);
         this.getMovies();
       } catch (error) {
-        console.log(error); //FIXME May cause crash
+        //console.log(error); //FIXME May cause crash
       }
       this.movie = {
           title: "",
@@ -78,7 +78,7 @@ export default {
         this.$root.$data.watchList = this.$root.$data.movies.filter(movie =>
           this.$root.$data.user.watchList.includes(movie._id));
       } catch (error) {
-        console.log(error); //FIXME this may cause issues
+        //console.log(error); //FIXME this may cause issues
       }
     },
   }

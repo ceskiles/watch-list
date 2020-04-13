@@ -44,7 +44,7 @@ export default {
         let response = await axios.get('/api/users');
         this.users = response.data;
       } catch (error) {
-        console.log(error) //FIXME May cause error
+        //console.log(error) //FIXME May cause error
       }
     },
     selectUser(user) {
@@ -57,7 +57,7 @@ export default {
         await axios.post('/api/users', this.newUser);
         this.selectUser(this.newUser);
       } catch (error) {
-        console.log(error) //FIXME May throw error
+        //console.log(error) //FIXME May throw error
       }
     }
   }
