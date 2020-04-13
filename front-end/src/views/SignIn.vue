@@ -54,8 +54,8 @@ export default {
     },
     async addUser() {
       try {
-        await axios.post('/api/users', this.newUser);
-        this.selectUser(this.newUser);
+        let response = await axios.post('/api/users', this.newUser);
+        this.selectUser(response.data);
       } catch (error) {
         //console.log(error) //FIXME May throw error
       }

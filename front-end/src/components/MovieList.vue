@@ -121,8 +121,6 @@ export default {
 
         this.$root.$data.watchList = this.$root.$data.movies.filter(movie =>
           this.$root.$data.user.watchList.includes(movie._id));
-
-        this.getUsers();
       } catch (error) {
         //  console.log(error);
       }
